@@ -29,6 +29,7 @@ public class TasksController {
     @PostMapping
     @Operation(summary = "Save a task", description = "Create a new task.")
     @ApiResponse(responseCode = "200", description = "Task saved successfully.")
+    @ApiResponse(responseCode = "401", description = "User not authorized.")
     @ApiResponse(responseCode = "500", description = "Server Error.")
     public ResponseEntity<TasksDTOResponse> registerTasks(@RequestBody TasksDTORequest tasksDTORequest,
                                                           @RequestHeader(name = "Authorization", required = false) String token){
@@ -38,6 +39,7 @@ public class TasksController {
     @GetMapping("/events")
     @Operation(summary = "Get tasks by Dates", description = "Get tasks between dates, start date and final date")
     @ApiResponse(responseCode = "200", description = "Task found")
+    @ApiResponse(responseCode = "401", description = "User not authorized.")
     @ApiResponse(responseCode = "500", description = "Server Error.")
     public ResponseEntity<List<TasksDTOResponse>> getTasksBetweenDates(@RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime startDate,
                                                                        @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime finalDate,
@@ -48,6 +50,8 @@ public class TasksController {
     @GetMapping("/email")
     @Operation(summary = "Get tasks by Email", description = "Get tasks by email.")
     @ApiResponse(responseCode = "200", description = "Tasks found")
+    @ApiResponse(responseCode = "403", description = "email not found.")
+    @ApiResponse(responseCode = "401", description = "User not authorized.")
     @ApiResponse(responseCode = "500", description = "Server Error.")
     public ResponseEntity<List<TasksDTOResponse>> getTasksByUserEmail(@RequestHeader(name = "Authorization", required = false) String token){
         return ResponseEntity.ok(tasksService.getTasksByUserEmail(token));
@@ -56,6 +60,8 @@ public class TasksController {
     @DeleteMapping
     @Operation(summary = "Delete task by Id", description = "delete task by id.")
     @ApiResponse(responseCode = "200", description = "Task deleted")
+    @ApiResponse(responseCode = "403", description = "Task id not found.")
+    @ApiResponse(responseCode = "401", description = "User not authorized.")
     @ApiResponse(responseCode = "500", description = "Server Error.")
     public ResponseEntity<Void> deleteById(@RequestParam("id") String id,
                                            @RequestHeader(name = "Authorization", required = false) String token){
@@ -65,6 +71,8 @@ public class TasksController {
     @PatchMapping
     @Operation(summary = "Change status", description = "Change notification status from a task.")
     @ApiResponse(responseCode = "200", description = "Notification updated")
+    @ApiResponse(responseCode = "403", description = "Task id not found.")
+    @ApiResponse(responseCode = "401", description = "User not authorized.")
     @ApiResponse(responseCode = "500", description = "Server Error.")
     public ResponseEntity<TasksDTOResponse> changeNotificationStatus(@RequestParam("status") NotificationStatusEnum status,
                                                                      @RequestParam("id") String id,
@@ -75,6 +83,8 @@ public class TasksController {
     @PutMapping
     @Operation(summary = "Update Tasks", description = "Update Tasks.")
     @ApiResponse(responseCode = "200", description = "Tasks updated")
+    @ApiResponse(responseCode = "403", description = "Task id not found.")
+    @ApiResponse(responseCode = "401", description = "User not authorized.")
     @ApiResponse(responseCode = "500", description = "Server Error.")
     public ResponseEntity<TasksDTOResponse> updateTasks(@RequestBody TasksDTOResponse tasksDTOResponse,
                                                         @RequestParam("id") String id,
