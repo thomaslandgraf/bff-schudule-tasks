@@ -30,6 +30,7 @@ public class UserController {
     @PostMapping
     @Operation(summary = "Save a user", description = "Create a new user.")
     @ApiResponse(responseCode = "200", description = "User saved successfully.")
+    @ApiResponse(responseCode = "401", description = "Invalid credentials")
     @ApiResponse(responseCode = "400", description = "User already create.")
     @ApiResponse(responseCode = "500", description = "Server Error.")
     public ResponseEntity<UserDTOResponse> saveUser(@RequestBody UserDTORequest userDTORequest){
@@ -48,7 +49,8 @@ public class UserController {
     @GetMapping
     @Operation(summary = "Get user data by Email", description = "Get user data by email.")
     @ApiResponse(responseCode = "200", description = "User found")
-    @ApiResponse(responseCode = "404", description = "User not found")
+    @ApiResponse(responseCode = "401", description = "Invalid credentials")
+    @ApiResponse(responseCode = "403", description = "User not found")
     @ApiResponse(responseCode = "500", description = "Server Error.")
     public ResponseEntity<UserDTOResponse> getUserByEmail(@RequestParam("email") String email,
                                                           @RequestHeader(name = "Authorization", required = false) String token){
@@ -58,7 +60,8 @@ public class UserController {
     @DeleteMapping
     @Operation(summary = "Delete user data by Email", description = "delete user data by email.")
     @ApiResponse(responseCode = "200", description = "User deleted")
-    @ApiResponse(responseCode = "404", description = "User not found")
+    @ApiResponse(responseCode = "401", description = "Invalid credentials")
+    @ApiResponse(responseCode = "403", description = "User not found")
     @ApiResponse(responseCode = "500", description = "Server Error.")
     public ResponseEntity<Void> deleteByEmail(@RequestParam("email") String email,
                                               @RequestHeader(name = "Authorization", required = false) String token){
@@ -69,7 +72,8 @@ public class UserController {
     @PutMapping
     @Operation(summary = "Update user data", description = "Update user data.")
     @ApiResponse(responseCode = "200", description = "User updated")
-    @ApiResponse(responseCode = "404", description = "User not found")
+    @ApiResponse(responseCode = "401", description = "Invalid credentials")
+    @ApiResponse(responseCode = "403", description = "User not found")
     @ApiResponse(responseCode = "500", description = "Server Error.")
     public  ResponseEntity<UserDTOResponse> updateUserData(@RequestBody UserDTORequest userDTORequest,
                                                            @RequestHeader(name = "Authorization", required = false) String token){
@@ -79,7 +83,8 @@ public class UserController {
     @PutMapping("/address")
     @Operation(summary = "Update user address", description = "update user address by Id.")
     @ApiResponse(responseCode = "200", description = "Address updated")
-    @ApiResponse(responseCode = "404", description = "Address not found")
+    @ApiResponse(responseCode = "401", description = "Invalid credentials")
+    @ApiResponse(responseCode = "403", description = "Address not found")
     @ApiResponse(responseCode = "500", description = "Server Error.")
     public ResponseEntity<AddressDTOResponse> updateUserAddress(@RequestBody AddressDTORequest addressDTORequest,
                                                                 @RequestParam("id") Long id,
@@ -90,7 +95,8 @@ public class UserController {
     @PutMapping("/phone_number")
     @Operation(summary = "Update user phone number", description = "update user phone number by Id.")
     @ApiResponse(responseCode = "200", description = "Phone number updated")
-    @ApiResponse(responseCode = "404", description = "Phone number not found")
+    @ApiResponse(responseCode = "401", description = "Invalid credentials")
+    @ApiResponse(responseCode = "403", description = "Phone number not found")
     @ApiResponse(responseCode = "500", description = "Server Error.")
     public ResponseEntity<PhoneNumberDTOResponse> updateUserPhoneNumber(@RequestBody PhoneNumberDTORequest phoneNumberDTORequest,
                                                                         @RequestParam("id") Long id,
@@ -101,7 +107,8 @@ public class UserController {
     @PostMapping("/address")
     @Operation(summary = "Save user address", description = "Save user address")
     @ApiResponse(responseCode = "200", description = "Address created successfully")
-    @ApiResponse(responseCode = "404", description = "Address not found")
+    @ApiResponse(responseCode = "401", description = "Invalid credentials")
+    @ApiResponse(responseCode = "403", description = "Address not found")
     @ApiResponse(responseCode = "500", description = "Server Error.")
     public ResponseEntity<AddressDTOResponse> registerAddress(@RequestBody AddressDTORequest addressDTORequest,
                                                               @RequestHeader(name = "Authorization", required = false) String token){
@@ -111,7 +118,8 @@ public class UserController {
     @PostMapping("/phone_number")
     @Operation(summary = "Save user phone number", description = "Save user phone number")
     @ApiResponse(responseCode = "200", description = "Phone number created successfully")
-    @ApiResponse(responseCode = "404", description = "Phone number not found")
+    @ApiResponse(responseCode = "401", description = "Invalid credentials")
+    @ApiResponse(responseCode = "403", description = "Phone number not found")
     @ApiResponse(responseCode = "500", description = "Server Error.")
     public ResponseEntity<PhoneNumberDTOResponse> registerPhoneNumber(@RequestBody PhoneNumberDTORequest phoneNumberDTORequest,
                                                                       @RequestHeader(name = "Authorization", required = false) String token){
