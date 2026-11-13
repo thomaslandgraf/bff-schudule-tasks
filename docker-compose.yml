@@ -1,0 +1,85 @@
+services:
+  schedule-task:
+    build: ../schedule-task
+    container_name: schedule-task
+    ports:
+      - "8081:8081"
+    environment:
+      SPRING_MONGODB_URI: mongodb://mongo:27017/db_schedule
+    depends_on:
+      mongo:
+        condition: service_healthy
+
+  bff-schedule-tasks:
+    build: .
+    container_name: bff-schedule-tasks
+    ports:
+      - "8084:8084"
+    environment:
+      USER_URL: users:8080/user
+      TASKS_URL: schedule-task:8081/tasks
+      NOTIFICATION_URL: notification:8082/email
+      USER_EMAIL: ${BFF_USER_EMAIL}
+      USER_PASSWORD: ${BFF_USER_PASSWORD}
+    depends_on:
+      - users
+      - schedule-task
+      - notification
+
+  users:
+    build: ../users
+    container_name: users
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/db_user
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: admin
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  notification:
+    build: ../notification
+    container_name: notification
+    ports:
+      - "8082:8082"
+    env_file:
+      - ../notification/.env
+
+  postgres:
+    image: postgres:17
+    container_name: postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: admin
+      POSTGRES_DB: db_user
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d db_user"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  mongo:
+    image: mongo:8
+    container_name: mongo
+    restart: unless-stopped
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+    healthcheck:
+      test: ["CMD", "mongosh", "--quiet", "--eval", "db.adminCommand('ping')"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+
+volumes:
+  postgres_data:
+  mongo_data:
