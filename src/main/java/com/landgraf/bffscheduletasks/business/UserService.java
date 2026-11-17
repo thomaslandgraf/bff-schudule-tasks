@@ -7,6 +7,7 @@ import com.landgraf.bffscheduletasks.business.dto.in.UserLoginRequest;
 import com.landgraf.bffscheduletasks.business.dto.out.AddressDTOResponse;
 import com.landgraf.bffscheduletasks.business.dto.out.PhoneNumberDTOResponse;
 import com.landgraf.bffscheduletasks.business.dto.out.UserDTOResponse;
+import com.landgraf.bffscheduletasks.business.dto.out.ZippopotamUSDTOResponse;
 import com.landgraf.bffscheduletasks.infrastructure.client.UserClient;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -51,6 +52,10 @@ public class UserService {
 
     public PhoneNumberDTOResponse registerPhoneNumber(PhoneNumberDTORequest phoneNumberDTORequest, String token){
         return userClient.registerPhoneNumber(phoneNumberDTORequest, token);
+    }
+
+    public ZippopotamUSDTOResponse getAddressByZipCode(String zip){
+        return userClient.getAddressByZipCode(zip);
     }
 }
 
