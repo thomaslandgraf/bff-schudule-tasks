@@ -8,6 +8,7 @@ import com.landgraf.bffscheduletasks.business.dto.in.UserLoginRequest;
 import com.landgraf.bffscheduletasks.business.dto.out.AddressDTOResponse;
 import com.landgraf.bffscheduletasks.business.dto.out.PhoneNumberDTOResponse;
 import com.landgraf.bffscheduletasks.business.dto.out.UserDTOResponse;
+import com.landgraf.bffscheduletasks.business.dto.out.ZippopotamUSDTOResponse;
 import com.landgraf.bffscheduletasks.infrastructure.security.SecurityConfig;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -125,4 +126,14 @@ public class UserController {
                                                                       @RequestHeader(name = "Authorization", required = false) String token){
         return ResponseEntity.ok(userService.registerPhoneNumber(phoneNumberDTORequest, token));
     }
+
+    @GetMapping("/address")
+    @Operation(summary = "Get Address by Zip Code", description = "Get Address with Zip Code")
+    @ApiResponse(responseCode = "200", description = "Address data returned successfully")
+    @ApiResponse(responseCode = "400", description = "Invalid Zip Code")
+    @ApiResponse(responseCode = "500", description = "Server Error.")
+    public ResponseEntity<ZippopotamUSDTOResponse> getAddressByZipCode(@RequestParam("zip") String zip){
+        return ResponseEntity.ok(userService.getAddressByZipCode(zip));
+    }
 }
+

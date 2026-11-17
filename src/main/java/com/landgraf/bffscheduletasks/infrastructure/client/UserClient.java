@@ -8,7 +8,9 @@ import com.landgraf.bffscheduletasks.business.dto.in.UserLoginRequest;
 import com.landgraf.bffscheduletasks.business.dto.out.AddressDTOResponse;
 import com.landgraf.bffscheduletasks.business.dto.out.PhoneNumberDTOResponse;
 import com.landgraf.bffscheduletasks.business.dto.out.UserDTOResponse;
+import com.landgraf.bffscheduletasks.business.dto.out.ZippopotamUSDTOResponse;
 import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @FeignClient(name = "user", url = "${user.url}")
@@ -50,4 +52,8 @@ public interface UserClient {
     @PostMapping("/phone_number")
     PhoneNumberDTOResponse registerPhoneNumber(@RequestBody PhoneNumberDTORequest phoneNumberDTORequest,
                                                @RequestHeader("Authorization") String token);
+
+    @GetMapping("/address")
+    ZippopotamUSDTOResponse getAddressByZipCode(@RequestParam("zip") String zip);
+
 }
