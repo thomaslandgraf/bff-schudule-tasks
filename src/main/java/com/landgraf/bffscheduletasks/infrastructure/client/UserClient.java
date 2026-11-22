@@ -10,7 +10,6 @@ import com.landgraf.bffscheduletasks.business.dto.out.PhoneNumberDTOResponse;
 import com.landgraf.bffscheduletasks.business.dto.out.UserDTOResponse;
 import com.landgraf.bffscheduletasks.business.dto.out.ZippopotamUSDTOResponse;
 import org.springframework.cloud.openfeign.FeignClient;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @FeignClient(name = "user", url = "${user.url}")
