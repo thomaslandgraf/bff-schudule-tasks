@@ -14,20 +14,21 @@ public class FeignError implements ErrorDecoder {
     @Override
     public Exception decode(String s, Response response) {
 
+        String err = "Error: ";
         String errMessage = errorMessage(response);
         switch (response.status()) {
             case 400:
-                return new IllegalArgumentException("Error: " + errMessage);
+                return new IllegalArgumentException(err + errMessage);
             case 401:
-                return new UnauthorizedException("Error: " + errMessage);
+                return new UnauthorizedException(err + errMessage);
             case 403:
-                return new ForbiddenException("Error: " + errMessage);
+                return new ForbiddenException(err + errMessage);
             case 404:
-                return new ResourceNotFoundException("Error: " + errMessage);
+                return new ResourceNotFoundException(err + errMessage);
             case 409:
-                return new ConflictException("Error: " + errMessage);
+                return new ConflictException(err + errMessage);
             default:
-                return new BusinessException("Error: " + errMessage);
+                return new BusinessException(err + errMessage);
         }
     }
 
