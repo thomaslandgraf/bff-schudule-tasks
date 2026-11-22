@@ -2,8 +2,6 @@ package com.landgraf.bffscheduletasks.business.dto.in;
 
 import lombok.*;
 
-import java.util.List;
-
 @Getter
 @Setter
 @AllArgsConstructor
